@@ -20,6 +20,7 @@ app.use('/api', routes)
 mongoose.Promise = Promise
 // const mongoUri = mongodb://localhost/stack
 const mongoUri = process.env.MONGO_HOST
+console.log('mongoUri', process.env.MONGO_HOST)
 mongoose?.connect(mongoUri)
 mongoose?.connection.on('error', () => {
   console.log(`unable to connect to database: ${mongoUri}`)
