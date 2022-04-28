@@ -21,7 +21,10 @@ const getUsers = async () => {
         account: { $first: "$account" },
         score: { $sum: { $sum: "$scores.score" } },
         count: { $sum: { $sum: 1 } },
-      },
+      }
+    },
+    {
+      $sort: { score: -1 }
     }
   ])
   return users
