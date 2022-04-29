@@ -43,7 +43,7 @@ const saveScore = async (req, res, next) => {
     score = Number(score)
     let isWin = 0
     let bonus = 0
-    if (isCompetition === 1) {
+    if (Number(isCompetition) === 1) {
       const index = rangeRandom(0, 4).toFixed(0)
       if (score > scoreArr[index]) {
         bonus = 10
