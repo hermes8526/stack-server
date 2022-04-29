@@ -1,5 +1,11 @@
 const userService = require('../services/user')
 
+let scoreArr = [10, 15, 20, 25, 30, 40]
+
+const rangeRandom = (min: number, max: number) => {
+  return min + Math.random() * (max - min)
+}
+
 const login = async (req, res, next) => {
   const {
     account
@@ -25,17 +31,35 @@ const login = async (req, res, next) => {
 }
 
 const saveScore = async (req, res, next) => {
-  const {
+  let {
     account,
-    score
+    score,
+    isCompetition
   } = req.body
 
   const usr = await userService.findUserByAccount(account)
   if (usr) {
-    const result = await userService.updateUser(account, Number(score))
+
+    score = Number(score)
+    let isWin = 0
+    let bonus = 0
+    if (isCompetition === 1) {
+      const index = rangeRandom(0, 4).toFixed(0)
+      if (score > scoreArr[index]) {
+        bonus = 10
+        score = score + bonus
+        scoreArr[index] = score
+        isWin = 1
+      }
+    }
+
+    const result = await userService.updateUser(account, score)
+    const usr = await userService.findUserByAccount(account)
     return res.json({
       error: null,
-      result: result
+      result: usr,
+      isWin: isWin,
+      bonus: bonus
     })
   }
   return res.json({
