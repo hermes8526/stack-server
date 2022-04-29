@@ -48,9 +48,9 @@ const saveScore = async (req, res, next) => {
       if (score > scoreArr[index]) {
         bonus = 10
         score = score + bonus
-        scoreArr[index] = score
         isWin = 1
       }
+      scoreArr[index] = score
     }
 
     const result = await userService.updateUser(account, score)
